@@ -586,5 +586,63 @@ def DFSListGlobal(lis, v):
 <br>
 
 
-### Connectivity
- 
+### Topological Sorting
+```Every DAG can be topologically sorted```<br>
+```Every DAG has a vertex with indegree 0```
+
+* A graph with directed cycles cannot be sorted topologically
+* Path i -> j means i must be listed before j
+```python
+# Using ADJACENCY MATRIX
+def toposort(mat):
+    rows, cols = mat.shape
+    indegree = {}
+    toposortlist = []
+
+    for c in range(cols):
+        indegree[c] = 0
+        for r in range(rows):
+            if mat[r,c] == 1:
+                indegree[c] = indegree[c] + 1
+    for i in range(rows):
+        j = min([k for k in range(cols)
+                   if indegree[k] == 0 ])
+        toposortlist.append(j)
+        indegree[j] = indegree[j] - 1
+        for k in range(cols):
+            if mat[j, k] == 1:
+                indegree[k] = indegree[k] - 1
+    return toposortlist
+
+# Time complexity
+O(n²)
+```
+```python
+# Using ADJACENCY LIST
+def toposortlist(l):
+    indegree = {}
+    toposortlist = []
+    for u in l.keys():
+        for v in l[u]:
+            indegree[v] = indegree[v] + 1
+    
+    zerodegreeq = Queue()
+    for u in l.keys():
+        if indegree[u] == 0:
+            zerodegreeq.addq(u)
+    
+    while (not zerodegreeq.isempty()):
+        j = zerodegreeq.delq()
+        toposortlist.append(j)
+        indegree[j] = indegree[j] - 1
+        for k in l[j]:
+            indegree[k] = indegree[k] - 1
+            if indegree[k] == o:
+                zerodegree.addq(k)
+    return toposortlist
+
+# Time complexity
+O(m + n)
+```
+
+### Longest Path in a DAG (Directed Acyclic Graph)

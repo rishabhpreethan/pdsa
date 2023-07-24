@@ -645,4 +645,62 @@ def toposortlist(l):
 O(m + n)
 ```
 
-### Longest Path in a DAG (Directed Acyclic Graph)
+## WEEK 5
+### Dijkstra's Algorithm
+* Greedy algorithm
+* No negative edges
+```python
+# Using ADJACENCY MATRIX
+def dijkstras(mat, s):
+    rows, cols, x = mat.shape
+    infinity = np.max(mat) + rows + 1
+    visited, distance = ({}, {})
+    for v in range(rows):
+        visited[v], distance[v] = False, infinity
+    distance[a] = 0
+    for u in range(rows):
+        nextd = min(distance[v] for v in range(rows)
+                        if no visited[v])
+        nextvlist = [v for v in range(rows)
+                        if not visited[v] and
+                        distance[v] == nextd]
+        if nextvlist == []:
+            break
+        nextv = min(nextvlist)
+        visited[nextv] = True
+        for v in range(cols):
+            if mat[nextv, v, 0] == 1 and (not visited[v]):
+                distance[v] = min(distance[v], distance[nextv] + mat[nextv ,v, 1])
+    return distance
+
+
+
+# Using ADJACENCY LIST
+def dijkstralist(l, s):
+    infinity = 1 + len(l.keys()) * max([d for u in l.keys()
+                                            for (v, d) in l[u]])
+    visited, distance = ({}, {})
+    for v in l.keys():
+        visited[v], distance[v] = (False, infinity)
+    distance[s] = 0
+    for u in l.keys():
+        nextd = min([distance[v] for v in l.keys()
+                        if not visited[v]])
+        nextvlist = [v for v in l.keys()
+                        if not visited[v] and
+                        distance[v] == nextd]
+        if nextvlist == []:
+            break
+        nextv = min(nextvlist)
+        visited[nextv] = True
+        for (v, d) in l[nextv]:
+            if not visited[v]:
+                distance[v] = min(distance[v], distance[nextv])
+    return distance
+
+# Time complexity
+O(n²)   # for both
+```
+
+### Bellman-Ford Algorithm
+* No cycles

@@ -704,3 +704,23 @@ O(n²)   # for both
 
 ### Bellman-Ford Algorithm
 * No cycles
+* Works for directed and undirected graphs
+```python
+def bellmanford(mat, s):
+    rows, cols, x = mat.shape()
+    infinity = np.max(mat) * rows + 1
+    distance = {}
+    for v in range(rows):
+        distance[v] = infinity
+    distance[s] = 0
+
+    for i in range(rows):
+        for u in range(rows):
+            for v in range(cols):
+                if mat[u, v, i] == 1:
+                    distance[v] = min(distance[v], distance[u] + mat[u, v, 1])
+    return distance
+
+# Time Complexity
+O(n³)
+```
